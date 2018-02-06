@@ -9,6 +9,7 @@ import Header                   from './components/header';
 import Landing                  from './components/landing';
 import Login                    from './components/login';
 import Register                 from './components/register';
+import Logout                   from './components/logout';
 
 // Bring app CSS into the picture
 require('./app.css');
@@ -41,6 +42,7 @@ class MyApp extends Component {
                         <Redirect to={`/profile/${this.user.username()}`}/> :
                         <Register/>;
                 }}/>
+                <Route path="/logout" render={() => <Logout user={this.user}/>}/>
             </div>
         </BrowserRouter>;
     }
@@ -48,7 +50,7 @@ class MyApp extends Component {
 
 class User {
     constructor(username, primary_email, first_name, school) {
-        if (username && primary_email) {
+        if (username && primary_email && first_name && school) {
             this.data = {
                 username: username,
                 primary_email: primary_email,

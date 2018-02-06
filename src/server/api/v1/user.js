@@ -23,7 +23,7 @@ module.exports = (app) => {
      * @param {req.body.username} Display name of the new user
      * @param {req.body.first_name} First name of the user
      * @param {req.body.last_name} Last name of the user
-     * @param {req.body.city} City user lives in
+     * @param {req.body.school} The school the user attends
      * @param {req.body.primary_email} Email address of the user
      * @param {req.body.password} Password for the user
      * @return {201, {username,primary_email}} Return username and others
@@ -33,9 +33,9 @@ module.exports = (app) => {
         let schema = Joi.object().keys({
             username:       Joi.string().lowercase().alphanum().min(3).max(32).required(),
             primary_email:  Joi.string().lowercase().email().required(),
-            first_name:     Joi.string().allow('').required(),
-            last_name:      Joi.string().allow('').required(),
-            school:         Joi.string().default('').required(),
+            first_name:     Joi.string().required(),
+            last_name:      Joi.string().required(),
+            school:         Joi.string().required(),
             password:       Joi.string().min(8).required()
         });
         // Validate user input
@@ -60,7 +60,8 @@ module.exports = (app) => {
                         res.status(201).send({
                             username:       data.username,
                             primary_email:  data.primary_email,
-                            first_name:     data.first_name
+                            first_name:     data.first_name,
+                            school:         data.school
                         });
                     }, err => {
                         // Error if username is already in use
@@ -131,7 +132,7 @@ module.exports = (app) => {
      *
      * @param {req.body.first_name} First name of the user - optional
      * @param {req.body.last_name} Last name of the user - optional
-     * @param {req.body.city} City user lives in - optional
+     * @param {req.body.school} School user lives in - optional
      * @return {204, no body content} Return status only
      */
     app.put('/v1/user', (req, res) => {
@@ -141,7 +142,7 @@ module.exports = (app) => {
             let schema = Joi.object().keys({
                 first_name: Joi.string().allow(''),
                 last_name: Joi.string().allow(''),
-                city: Joi.string().allow(''),
+                school: Joi.string().allow(''),
             });
             Joi.validate(req.body, schema, {stripUnknown: true}, (err, data) => {
                 if (err) {
