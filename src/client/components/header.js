@@ -2,23 +2,18 @@
 
 
 import React, { Component }     from 'react';
-import { Link, withRouter }  from 'react-router-dom';
-
-import md5                      from 'md5';
+import { withRouter }  from 'react-router-dom';
 
 /*************************************************************************/
 
-export function GravHash(email, size) {
-    let hash = email.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
-    hash = hash.toLowerCase();
-    hash = md5(hash);
-    return `https://www.gravatar.com/avatar/${hash}?size=${size}`;
-}
 
 class Header extends Component {
     constructor(props) {
         super(props);
         this.onClick = this.onClick.bind(this);
+        this.onLogin = this.onLogin.bind(this);
+        this.onRegister = this.onRegister.bind(this);
+        this.onLogout = this.onLogout.bind(this);
     }
 
     onClick() {
@@ -26,18 +21,28 @@ class Header extends Component {
         this.props.history.push(`/profile/${username}`);
     }
 
+    onLogin() {
+        this.props.history.push(`/login`)
+    }
+
+    onRegister() {
+        this.props.history.push(`/register`)
+    }
+
+    onLogout() {
+        this.props.history.push(`/logout`)
+    }
+
     render() {
         const user = this.props.user.getUser();
-        console.log("User");
-        console.log(user);
         const header = user.username !== '' ?
             <div>
                 <div className="col-xs-8">
                     <h2>Welcome to Nextbooks, {user.first_name}!</h2>
                 </div>
                 <div className="header">
-                    <Link to="/logout">Log Out</Link>
-                    <img src='/images/placeholder.png'/>
+                    <button onClick={this.onLogout} className="btn btn-default">Log Out</button>
+                    <img src='/images/placeholder.png' onClick={this.onClick}/>
                 </div>
             </div>:
             <div>
@@ -45,8 +50,8 @@ class Header extends Component {
                     <h2>Welcome to Nextbooks!</h2>
                 </div>
                 <div className="col-xs-4 right-nav">
-                    <Link to="/login">Log In</Link>
-                    <Link to="/register">Register</Link>
+                    <button onClick={this.onLogin} className="btn btn-default" id="loginbtn">Login</button>
+                    <button onClick={this.onRegister} className="btn btn-default">Register</button>
                 </div>
             </div>;
         return <nav className="navbar navbar-default navbar-static-top">

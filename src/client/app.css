@@ -9,9 +9,8 @@
     padding-top: 10px;
     padding-right: 20px;
 }
-
-.right-nav a {
-    display: block;
+#loginbtn {
+    margin-right: 5px;
 }
 
 .header {
