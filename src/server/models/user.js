@@ -1,4 +1,3 @@
-/* Copyright G. Hemingway @2017 - All rights reserved */
 "use strict";
 
 let crypto              = require('crypto'),
@@ -25,6 +24,8 @@ let User = new Schema({
     'school':       { type: String, required: true, default: '' },
     'hash':         { type: String, required: true },
     'salt':         { type: String, required: true },
+    'owned_books':  [{type: Schema.Types.ObjectId, ref: 'BookForSale'}],
+    'wanted_books': [{type: String, ref: 'BookInfo'}]
 });
 
 User.path('username').validate(function(value) {

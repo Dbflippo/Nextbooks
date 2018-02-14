@@ -45,7 +45,9 @@ mongoose.connect('mongodb://localhost:32777/nextbooks', options)
 
         // Import our Data Models
         app.models = {
-            User: require('./models/user')
+            User: require('./models/user'),
+            InfoBook: require('./models/infobook'),
+            ForSaleBook: require('./models/forsalebook'),
         };
 
         // Import our API Routes
