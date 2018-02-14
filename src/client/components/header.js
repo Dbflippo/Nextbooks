@@ -38,7 +38,8 @@ class Header extends Component {
         const header = user.username !== '' ?
             <div>
                 <div className="col-xs-8">
-                    <h2>Welcome to Nextbooks, {user.first_name}!</h2>
+                    <img src='/images/NextbookFav.png' className='header-img'/>
+                    <h2 >Welcome to Nextbooks, {user.first_name}!</h2>
                 </div>
                 <div className="header">
                     <button onClick={this.onLogout} className="btn btn-default">Log Out</button>
@@ -47,6 +48,7 @@ class Header extends Component {
             </div>:
             <div>
                 <div className="col-xs-8">
+                    <img src='/images/NextbookFav.png' className='header-img'/>
                     <h2>Welcome to Nextbooks!</h2>
                 </div>
                 <div className="col-xs-4 right-nav">

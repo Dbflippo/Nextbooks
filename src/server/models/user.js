@@ -25,9 +25,6 @@ let User = new Schema({
     'school':       { type: String, required: true, default: '' },
     'hash':         { type: String, required: true },
     'salt':         { type: String, required: true },
-    'games': [
-        { type: Schema.Types.ObjectId, ref: 'Game' }
-    ]
 });
 
 User.path('username').validate(function(value) {
