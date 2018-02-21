@@ -10,6 +10,7 @@ import Landing                  from './components/landing';
 import Login                    from './components/login';
 import Register                 from './components/register';
 import Logout                   from './components/logout';
+import Profile                  from './components/profile';
 
 // Bring app CSS into the picture
 require('./app.css');
@@ -43,6 +44,7 @@ class MyApp extends Component {
                         <Register/>;
                 }}/>
                 <Route path="/logout" render={() => <Logout user={this.user}/>}/>
+                <Route path="/profile/:username" render={() => <Profile user={this.user}/>}/>
             </div>
         </BrowserRouter>;
     }
