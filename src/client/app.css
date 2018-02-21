@@ -3,7 +3,10 @@
     margin-right: -24px;
     background-color: darkorange;
 }
-
+.main-nav {
+    display: inline-flex;
+    margin-left: 5%;
+}
 .right-nav {
     text-align: right;
     padding-top: 10px;
@@ -12,15 +15,23 @@
 #loginbtn {
     margin-right: 5px;
 }
+#registerbtn {
+    margin-right: 5px;
+}
 
 .header {
     float: right;
     text-align: right;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .header img {
     border-radius: 5px;
-    margin: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
     width: 50px;
     height: 50px;
 }
@@ -38,4 +49,17 @@
 
 #profile-image {
     width: 150px;
+    margin: 10px 5px 10px 0px;
+}
+
+.nav-container {
+    margin-top: 25px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    float: bottom;
+}
+.nav-item {
+    margin-right: 20px;
+    font-size: 18px;
+    display: inline;
 }

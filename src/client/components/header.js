@@ -35,11 +35,20 @@ class Header extends Component {
 
     render() {
         const user = this.props.user.getUser();
+        const school_logo = '/images/logo_' + user.school + '.png';
         const header = user.username !== '' ?
             <div>
-                <div className="col-xs-8">
-                    <img src='/images/NextbookFav.png' className='header-img'/>
+                <div className="main-nav">
+                    <div>
+                        <img src='/images/NextbookFav.png' className='header-img'/>
+                        <img src={school_logo} className='header-img'/>
+                    </div>
                     <h2 >Welcome to Nextbooks, {user.first_name}!</h2>
+                    <div className="nav-container">
+                        <a href="http://google.com" className="nav-item">Find Books</a>
+                        <a href="http://google.com" className="nav-item">Add Books</a>
+                        <a href="http://google.com" className="nav-item">View Your Books</a>
+                    </div>
                 </div>
                 <div className="header">
                     <button onClick={this.onLogout} className="btn btn-default">Log Out</button>
@@ -47,13 +56,18 @@ class Header extends Component {
                 </div>
             </div>:
             <div>
-                <div className="col-xs-8">
-                    <img src='/images/NextbookFav.png' className='header-img'/>
+                <div className="main-nav">
+                    <div>
+                        <img src='/images/NextbookFav.png' className='header-img'/>
+                    </div>
                     <h2>Welcome to Nextbooks!</h2>
+                    <div className="nav-container">
+                        <a href="http://google.com" className="nav-item">Find Books</a>
+                    </div>
                 </div>
-                <div className="col-xs-4 right-nav">
+                <div className="header">
                     <button onClick={this.onLogin} className="btn btn-default" id="loginbtn">Login</button>
-                    <button onClick={this.onRegister} className="btn btn-default">Register</button>
+                    <button onClick={this.onRegister} className="btn btn-default" id="registerbtn">Register</button>
                 </div>
             </div>;
         return <nav className="navbar navbar-default navbar-static-top">

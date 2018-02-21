@@ -87,7 +87,11 @@ class Register extends Component {
                     <div className="form-group">
                         <label className="col-sm-2 control-label" htmlFor="school">School:</label>
                         <div className="col-sm-10">
-                            <input className="form-control" id="school" type="text" placeholder="School"/>
+                            <select className="form-control" id="school">
+                                <option value="" disabled selected></option>
+                                <option value="belmont">Belmont University</option>
+                                <option value="vanderbilt">Vanderbilt University</option>
+                            </select>
                         </div>
                     </div>
                     <div className="form-group">
