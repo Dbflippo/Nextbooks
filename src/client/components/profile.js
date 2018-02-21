@@ -17,7 +17,9 @@ class Profile extends Component {
         super(props);
         this.state= {
             user: {
-                primary_email: ""
+                primary_email: "",
+                wanted_books: [],
+                owned_books: [],    
             }
         }
     }
