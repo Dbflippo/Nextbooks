@@ -46,7 +46,6 @@ class Profile extends Component {
     }
 
     render() {
-        console.log(this.state);
         const isUser = this.props.match.params.username === this.props.user.getUser().username;
         let wantList = this.state.user.wanted_books.map((book, index) => (
             <Book key={index} book={book} index={index}/>
