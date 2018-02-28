@@ -1,3 +1,4 @@
+
 'use strict';
 
 let Joi = require('joi');
@@ -43,6 +44,11 @@ module.exports = (app) => {
            )
     });
 
+    app.get('/v1/infobooks', (req, res) => {
+        let infobooks = app.models.InfoBook.map();
+        res.status(200).send(infobooks);
+    });
+
     app.post('/v1/infobook', (req, res) => {
         let schema = Joi.object().keys({
             ISBN:       Joi.string().alphanum().min(13).max(13).required(),
@@ -72,6 +78,7 @@ module.exports = (app) => {
             }
         })
     });
+
 
 
 };

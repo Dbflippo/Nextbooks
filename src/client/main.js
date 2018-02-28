@@ -11,6 +11,8 @@ import Login                    from './components/login';
 import Register                 from './components/register';
 import Logout                   from './components/logout';
 import Profile                  from './components/profile';
+import CTABox                   from './components/cta-box';
+import Browse                   from './components/browse';
 import RegisterBook             from './components/registerbook';
 import CheckBook                from './components/checkbook';
 import PriceBook                from './components/pricebook';
@@ -29,7 +31,7 @@ class MyApp extends Component {
             window.__PRELOADED_STATE__.first_name,
             window.__PRELOADED_STATE__.school,
         );
-        this.book = new Book("0000000000000")
+        this.book = new Book("0000000000000");
     }
 
     render() {
@@ -37,6 +39,7 @@ class MyApp extends Component {
             <div>
                 <Header user={this.user}/>
                 <Route exact path="/" component={Landing}/>
+                <Route exact path="/" render={() => <CTABox user={this.user}/>}/>
                 <Route path="/login" render={() => {
                     return this.user.loggedIn() ?
                         <Redirect to={`/profile/${this.user.username()}`}/> :
@@ -49,6 +52,7 @@ class MyApp extends Component {
                 }}/>
                 <Route path="/logout" render={() => <Logout user={this.user}/>}/>
                 <Route path="/profile/:username" render={() => <Profile user={this.user}/>}/>
+                <Route path="/browse" render={() => <Browse user={this.user} books={this.books}/>}/>
                 <Route path="/checkbook" render={() => <CheckBook book={this.book}/>}/>
                 <Route path="/registerbook/:ISBN" render={()=> <RegisterBook user={this.user}/>}/>
                 <Route path="/pricebook/:ISBN" render={() => <PriceBook user={this.user}/>}/>

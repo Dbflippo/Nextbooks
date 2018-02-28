@@ -35,24 +35,23 @@ class Header extends Component {
 
     render() {
         const user = this.props.user.getUser();
-        const school_logo = '/images/logo_' + user.school + '.png';
         const header = user.username !== '' ?
             <div>
                 <div className="main-nav">
                     <div>
                         <img src='/images/NextbookFav.png' className='header-img'/>
-                        <img src={school_logo} className='header-img'/>
+                        <img src={'/images/logo_' + user.school + '.png'} className='header-img'/>
                     </div>
                     <h2 >Welcome to Nextbooks, {user.first_name}!</h2>
                     <div className="nav-container">
-                        <a href="http://google.com" className="nav-item">Find Books</a>
-                        <a href="http://google.com" className="nav-item">Add Books</a>
-                        <a href="http://google.com" className="nav-item">View Your Books</a>
+                        <a href='/browse' className="nav-item">Find Books</a>
+                        <a href='/checkbook' className="nav-item">Add Books</a>
+                        <a href={'/profile/'+user.username} className="nav-item">View Your Books</a>
                     </div>
                 </div>
                 <div className="header">
                     <button onClick={this.onLogout} className="btn btn-default">Log Out</button>
-                    <img src='/images/placeholder.png' onClick={this.onClick}/>
+                    <img src='/images/placeholder.png' className='login-img' onClick={this.onClick}/>
                 </div>
             </div>:
             <div>
@@ -62,7 +61,7 @@ class Header extends Component {
                     </div>
                     <h2>Welcome to Nextbooks!</h2>
                     <div className="nav-container">
-                        <a href="http://google.com" className="nav-item">Find Books</a>
+                        <a href="/browse" className="nav-item">Find Books</a>
                     </div>
                 </div>
                 <div className="header">
