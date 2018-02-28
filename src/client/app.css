@@ -108,7 +108,7 @@ body{
     cursor: pointer;
 }
 .browse {
-    width: 70%;
+    width: 80%;
     margin: 10px auto;
 }
 .browse-window {
@@ -117,7 +117,7 @@ body{
     justify-content: center;
 }
 .book-tile {
-    width: 24%;
+    width: 20%;
     display: flex;
     flex-direction: column;
     padding: 5px;
