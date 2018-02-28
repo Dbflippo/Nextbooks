@@ -39,7 +39,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 let options = {
     useMongoClient: true
 };
-mongoose.connect('mongodb://localhost:27017/nextbooks', options)
+mongoose.connect('mongodb://localhost:32781/nextbooks', options)
     .then(() => {
         console.log('\t MongoDB connected');
 
@@ -53,6 +53,8 @@ mongoose.connect('mongodb://localhost:27017/nextbooks', options)
         // Import our API Routes
         require('./api/v1/user')(app);
         require('./api/v1/session')(app);
+        require('./api/v1/forsalebook')(app);
+        require('./api/v1/infobook')(app);
 
         // Give them the SPA base page
         app.get('*', (req, res) => {
@@ -75,5 +77,5 @@ mongoose.connect('mongodb://localhost:27017/nextbooks', options)
 
 // Run the server itself
 let server = app.listen(port, () => {
-    console.log('Assignment 5 app listening on ' + server.address().port);
+    console.log('Nextbooks listening on ' + server.address().port);
 });

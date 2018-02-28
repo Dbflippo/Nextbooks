@@ -1,6 +1,7 @@
 "use strict";
 
 let Joi             = require('joi');
+let Books           = require('../../books');
 
 const validatePassword = password => {
     // Validate password more
@@ -107,17 +108,24 @@ module.exports = (app) => {
      */
     app.get('/v1/user/:username', (req, res) => {
         app.models.User.findOne({ username: req.params.username.toLowerCase() })
+            .populate('wanted_books')
+            .populate('owned_books')
             .exec()
             .then(
                 user => {
                     if (!user) res.status(404).send({ error: `unknown user: ${req.params.username}` });
                     else {
+                        const filteredWantedBooks = user.wanted_books.map(book => Books.filterBooksForProfile(book));
+                        const filteredOwnedBooks = user.owned_books.map(book => Books.filterBooksForProfile(book));
+
                         res.status(200).send({
                             username:       user.username,
                             primary_email:  user.primary_email,
                             first_name:     user.first_name,
                             last_name:      user.last_name,
                             school:         user.school,
+                            wanted_books:   filteredWantedBooks,
+                            owned_books:    filteredOwnedBooks,
                         });
                     }
                 }, err => {
