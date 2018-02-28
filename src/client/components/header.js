@@ -45,7 +45,7 @@ class Header extends Component {
                     <h2 >Welcome to Nextbooks, {user.first_name}!</h2>
                     <div className="nav-container">
                         <a href='/browse' className="nav-item">Find Books</a>
-                        <a href='/add-books' className="nav-item">Add Books</a>
+                        <a href='/checkbook' className="nav-item">Add Books</a>
                         <a href={'/profile/'+user.username} className="nav-item">View Your Books</a>
                     </div>
                 </div>

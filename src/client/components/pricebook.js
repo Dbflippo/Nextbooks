@@ -71,6 +71,7 @@ class PriceBook extends Component {
 
     render() {
         return <div className='row'>
+            <div className='col-xs-1'></div>
             <div className='col-xs-6'>
                 <div className="center-block">
                     <p id="errorMsg" className="bg-danger"/>

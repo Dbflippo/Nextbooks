@@ -18,7 +18,7 @@ class CTABox extends Component {
             <div className="row">
                 <div className="cta-container">
                     <a href='/browse' className="cta">Find Books</a>
-                    <a href='/add-books' className="cta">Add Books to Sell</a>
+                    <a href='/checkbook' className="cta">Add Books to Sell</a>
                     <a href={'/profile/'+user.username} className="cta">View Your Books</a>
                 </div>
             </div>:

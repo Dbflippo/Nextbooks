@@ -116,3 +116,33 @@ body{
     flex-wrap: wrap;
     justify-content: center;
 }
+.book-tile {
+    width: 24%;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    margin: 5px;
+    height: 400px;
+    justify-content: space-between;
+}
+.book-tile:hover {
+    cursor: pointer;
+    background-color: lightgray;
+}
+.book-cover {
+    max-height: 200px;
+    width: auto;
+    align-self: center;
+}
+.book-tile-text {
+    font-size: 14px;
+    text-align: center;
+}
+.book-tile-title {
+    font-weight: bold;
+    font-size: 16px;
+}
+.book-btn {
+    margin-top: 5px;
+    width: 100%;
+}

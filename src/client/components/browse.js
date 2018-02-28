@@ -4,7 +4,19 @@ import React, { Component }             from 'react';
 import { Link, withRouter }             from 'react-router-dom';
 
 const Book = ({book, index}) => {
-    // fill in
+    return <div className="book-tile">
+        <img className='book-cover' src='/images/book_placeholder.png'></img>
+        <div className="book-tile-text">
+            <div className="book-tile-title">{book.title}</div>
+            <div>{book.author}</div>
+            <div>{book.edition}</div>
+            <div>ISBN: {book.ISBN}</div>
+        </div>
+        <div>
+            <button className="btn btn-default book-btn">See Buying Options</button>
+            <button className="btn btn-default book-btn">Add to Your List</button>
+        </div>
+    </div>
 };
 
 class Browse extends Component {
@@ -12,12 +24,11 @@ class Browse extends Component {
         super(props);
         this.state = {
             user: {
-                primary_email: "",
                 wanted_books: [],
                 owned_books: [],
             },
-            books: []
         }
+        //this.all_books = [];
     }
 
     fetchUserInfo(username) {
@@ -33,59 +44,57 @@ class Browse extends Component {
                 errorEl.innerHTML = `Error: ${err.responseJSON.error}`;
             });
     }
-
+/*
     fetchBookInfo() {
-        let infobooks;
         $.ajax({
             url: '/v1/infobooks',
             method: 'get'
         })
             .then(data => {
-                infobooks = data;
+                this.setState({ all_books: data });
             })
             .fail(err => {
                 let errorEl = document.getElementById('errorMsg');
                 errorEl.innerHTML = `Error: ${err.responseJSON.error}`;
             });
-        for (var book in infobooks) {
-            $.ajax({
-                url: `/v1/user/${book.ISBN}`,
-                method: 'get'
-            })
-                .then(data => {
-                    this.state.books.push(data);
-                })
-                .fail(err => {
-                    let errorEl = document.getElementById('errorMsg');
-                    errorEl.innerHTML = `Error: ${err.responseJSON.error}`;
-                });
-        }
     }
-
+*/
 
     componentDidMount() {
-        this.fetchUserInfo(this.props.match.params.username);
-        this.fetchBookInfo();
+        this.fetchUserInfo(this.props.user.getUser().username);
+        //this.fetchBookInfo();
     }
 
     componentWillReceiveProps(nextProps) {
-        this.fetchUserInfo(nextProps.match.params.username);
-        this.fetchBookInfo();
+        this.fetchUserInfo(nextProps.user.getUser().username);
+        //this.fetchBookInfo();
     }
 
     render() {
+        const isEmptyWantList = this.state.user.wanted_books.length == 0;
         let wantList = this.state.user.wanted_books.map((book, index) => (
             <Book key={index} book={book} index={index}/>
         ));
-        let allBooksList = this.state.books.map((book, index) => (
+        let ownedList = this.state.user.owned_books.map((book, index) => (
             <Book key={index} book={book} index={index}/>
         ));
+        {/*
+        let allBooksList = this.state.all_books.map((book, index) => (
+            <Book key={index} book={book} index={index}/>
+        ));
+        */}
         return<div>
             <div className='browse'>
                 <h3>On Your List:</h3>
-                <div className='browse-window'>{wantList}</div>
+                <div className='browse-window'>
+                    {!isEmptyWantList ?
+                        wantList :
+                        <h4>No books found on Want list</h4>
+                    }
+                    </div>
+
                 <h3>All Books:</h3>
-                <div className='browse-window'>{allBooksList}</div>
+                <div className='browse-window'>{ownedList}</div>
             </div>
         </div>
     }
