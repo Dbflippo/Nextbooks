@@ -8,7 +8,7 @@ let InfoBook = new Schema({
     'author': {type: String, required: true},
     'title': {type: String, required: true},
     'edition': {type: String},
-    'for_sale': [{type: Schema.Types.ObjectId, ref: 'BookForSale'}],
+    'for_sale': [{type: Schema.Types.ObjectId, ref: 'ForSaleBook'}],
 });
 
 module.exports = mongoose.model('InfoBook', InfoBook);

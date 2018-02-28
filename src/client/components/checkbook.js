@@ -35,7 +35,7 @@ class CheckBook extends Component {
             data: data,
         })
             .then(() => {
-                this.props.book.RegisterBook(this.props.history, data)
+                this.props.book.PriceBook(this.props.history, data)
             })
             .fail(err => {
                 if(err.status === 404) {

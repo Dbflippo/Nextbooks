@@ -13,6 +13,7 @@ import Logout                   from './components/logout';
 import Profile                  from './components/profile';
 import RegisterBook             from './components/registerbook';
 import CheckBook                from './components/checkbook';
+import PriceBook                from './components/pricebook';
 
 // Bring app CSS into the picture
 require('./app.css');
@@ -50,6 +51,7 @@ class MyApp extends Component {
                 <Route path="/profile/:username" render={() => <Profile user={this.user}/>}/>
                 <Route path="/checkbook" render={() => <CheckBook book={this.book}/>}/>
                 <Route path="/registerbook/:ISBN" render={()=> <RegisterBook user={this.user}/>}/>
+                <Route path="/pricebook/:ISBN" render={() => <PriceBook user={this.user}/>}/>
             </div>
         </BrowserRouter>;
     }
@@ -71,6 +73,11 @@ class Book {
     RegisterBook(router, data) {
         this.data = data;
         router.push(`/registerbook/${data.ISBN}`)
+    }
+
+    PriceBook(router, data) {
+        this.data = data;
+        router.push(`/pricebook/${data.ISBN}`)
     }
 }
 
