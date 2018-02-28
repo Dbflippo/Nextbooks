@@ -11,6 +11,8 @@ import Login                    from './components/login';
 import Register                 from './components/register';
 import Logout                   from './components/logout';
 import Profile                  from './components/profile';
+import RegisterBook             from './components/registerbook';
+import CheckBook                from './components/checkbook';
 
 // Bring app CSS into the picture
 require('./app.css');
@@ -26,6 +28,7 @@ class MyApp extends Component {
             window.__PRELOADED_STATE__.first_name,
             window.__PRELOADED_STATE__.school,
         );
+        this.book = new Book("0000000000000")
     }
 
     render() {
@@ -45,8 +48,29 @@ class MyApp extends Component {
                 }}/>
                 <Route path="/logout" render={() => <Logout user={this.user}/>}/>
                 <Route path="/profile/:username" render={() => <Profile user={this.user}/>}/>
+                <Route path="/checkbook" render={() => <CheckBook book={this.book}/>}/>
+                <Route path="/registerbook/:ISBN" render={()=> <RegisterBook user={this.user}/>}/>
             </div>
         </BrowserRouter>;
+    }
+}
+
+class Book {
+    constructor(ISBN) {
+        if(ISBN) {
+            this.data = {
+                ISBN: ISBN
+            };
+        } else {
+            this.data = {
+                ISBN: ""
+            };
+        }
+    }
+
+    RegisterBook(router, data) {
+        this.data = data;
+        router.push(`/registerbook/${data.ISBN}`)
     }
 }
 

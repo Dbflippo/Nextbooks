@@ -17,9 +17,8 @@ class Profile extends Component {
         super(props);
         this.state= {
             user: {
-                primary_email: "",
                 wanted_books: [],
-                owned_books: [],    
+                owned_books: [],
             }
         }
     }
@@ -47,6 +46,7 @@ class Profile extends Component {
     }
 
     render() {
+        console.log(this.state);
         const isUser = this.props.match.params.username === this.props.user.getUser().username;
         let wantList = this.state.user.wanted_books.map((book, index) => (
             <Book key={index} book={book} index={index}/>
@@ -55,6 +55,9 @@ class Profile extends Component {
             <Book key={index} book={book} index={index}/>
         ));
         return<div>
+            <div className="center-block">
+                <p id="errorMsg" className="bg-danger"/>
+            </div>
             <div className='col-xs-12'>
                 <h4>{this.props.match.params.username}</h4>
             </div>
@@ -77,7 +80,10 @@ class Profile extends Component {
                 <hr className='profile-hr'/>
             </div>
             <div className='col-xs-12'>
-                <h4 className='col-xs-6'>Books For Sale</h4>
+                <div className='col-xs-6'>
+                    <h4 >Books For Sale</h4>
+                    { isUser ? <Link to={`/checkbook`}>Sell A Book</Link> : undefined }
+                </div>
                 <h4 className='col-xs-6'>Books You Want</h4>
             </div>
             <div className='col-xs-12'>
