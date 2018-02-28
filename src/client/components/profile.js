@@ -57,22 +57,24 @@ class Profile extends Component {
             <div className="center-block">
                 <p id="errorMsg" className="bg-danger"/>
             </div>
-            <div className='col-xs-12'>
-                <h4>{this.props.match.params.username}</h4>
+            <div className='col-xs-2'></div>
+            <div className='col-xs-10'>
+                <h3>{this.props.match.params.username}</h3>
             </div>
-            <div className='col-xs-3'>
+            <div className='col-xs-2'></div>
+            <div className='col-xs-2'>
                 <img src='/images/placeholder.png' id="profile-image"/>
             </div>
-            <div className='col-xs-9'>
+            <div className='col-xs-8'>
                 <div className='col-xs-3 text-right'>
-                    <p>Name:</p>
-                    <p>School:</p>
-                    <p>Email:</p>
+                    <h4>Name:</h4>
+                    <h4>School:</h4>
+                    <h4>Email:</h4>
                 </div>
                 <div className='col-xs-9'>
-                    <p>{this.state.user.first_name} {this.state.user.last_name}</p>
-                    <p>{this.state.user.school}</p>
-                    <p>{this.state.user.primary_email}</p>
+                    <h4>{this.state.user.first_name} {this.state.user.last_name}</h4>
+                    <h4>{this.state.user.school}</h4>
+                    <h4>{this.state.user.primary_email}</h4>
                 </div>
             </div>
             <div className='row col-xs-12'>
