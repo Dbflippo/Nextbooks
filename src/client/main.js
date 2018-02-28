@@ -11,6 +11,8 @@ import Login                    from './components/login';
 import Register                 from './components/register';
 import Logout                   from './components/logout';
 import Profile                  from './components/profile';
+import CTABox                   from './components/cta-box';
+//import Browse                   from './components/browse';
 
 // Bring app CSS into the picture
 require('./app.css');
@@ -33,6 +35,7 @@ class MyApp extends Component {
             <div>
                 <Header user={this.user}/>
                 <Route exact path="/" component={Landing}/>
+                <Route exact path="/" render={() => <CTABox user={this.user}/>}/>
                 <Route path="/login" render={() => {
                     return this.user.loggedIn() ?
                         <Redirect to={`/profile/${this.user.username()}`}/> :
@@ -45,6 +48,7 @@ class MyApp extends Component {
                 }}/>
                 <Route path="/logout" render={() => <Logout user={this.user}/>}/>
                 <Route path="/profile/:username" render={() => <Profile user={this.user}/>}/>
+                {/*<Route path="/browse" render={() => <Browse user={this.user}/>}/>*/}
             </div>
         </BrowserRouter>;
     }

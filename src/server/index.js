@@ -75,5 +75,5 @@ mongoose.connect('mongodb://localhost:27017/nextbooks', options)
 
 // Run the server itself
 let server = app.listen(port, () => {
-    console.log('Assignment 5 app listening on ' + server.address().port);
+    console.log('Nextbooks app listening on ' + server.address().port);
 });
