@@ -28,7 +28,7 @@ module.exports = (app) => {
                book => {
                    if (!book) res.status(404).send({ error: `unknown book: ${req.params.ISBN}` });
                    else {
-                       const filteredForSale = book.for_sale.map(fsbook => Books.filterBooksForProfile(fsbook));
+                       const filteredForSale = book.for_sale.map(fsbook => Books.filterOwnedBooksForProfile(fsbook));
                        res.status(200).send({
                            ISBN:            book.ISBN,
                            title:           book.title,
@@ -52,8 +52,8 @@ module.exports = (app) => {
     app.post('/v1/infobook', (req, res) => {
         let schema = Joi.object().keys({
             ISBN:       Joi.string().alphanum().min(13).max(13).required(),
-            title:      Joi.string().lowercase().required(),
-            author:     Joi.string().lowercase().required(),
+            title:      Joi.string().required(),
+            author:     Joi.string().required(),
             edition:    Joi.string()
         });
         Joi.validate(req.body, schema, {stripUnknown: true}, (err, data) => {

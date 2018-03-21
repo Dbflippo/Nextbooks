@@ -29,29 +29,33 @@ class RegisterBook extends Component {
             author: document.getElementById('author').value,
             edition: document.getElementById('edition').value,
         };
-        let $error = $('#errorMsg');
-        $.ajax({
-            url: `/v1/infobook`,
-            method: 'post',
-            data: infodata,
-        })
-            .then(() => {
-                $.ajax({
-                    url: `/v1/forsalebook`,
-                    method: 'post',
-                    data: forsaledata,
+        let $error = document.getElementById('errorMsg');
+        if(!forsaledata.price) {
+            $error.innerHTML = 'Error: Please enter a price'
+        } else {
+            $.ajax({
+                url: `/v1/infobook`,
+                method: 'post',
+                data: infodata,
+            })
+                .then(() => {
+                    $.ajax({
+                        url: `/v1/forsalebook`,
+                        method: 'post',
+                        data: forsaledata,
+                    })
+                        .then(() => {
+                            this.props.history.push(`/profile/${this.props.user.data.username}`)
+                        })
+                        .fail(err => {
+                            $error.innerHTML = `Error: ${err.responseJson.error}`;
+                        })
                 })
-                    .then(()=> {
-                        this.props.history.push(`/profile/${this.props.user.data.username}`)
-                    })
-                    .fail(err => {
-                        $error.innerHTML = `Error: ${err.responseJson.error}`;
-                    })
-            })
-            .fail(err => {
-                console.log(err);
-                $error.innerHTML = `Error: ${err.responseJSON.error}`;
-            })
+                .fail(err => {
+                    console.log(err);
+                    $error.innerHTML = `Error: ${err.responseJSON.error}`;
+                })
+        }
 
 
     }

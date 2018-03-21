@@ -14,6 +14,11 @@ class Header extends Component {
         this.onLogin = this.onLogin.bind(this);
         this.onRegister = this.onRegister.bind(this);
         this.onLogout = this.onLogout.bind(this);
+        this.homeClick = this.homeClick.bind(this);
+    }
+
+    homeClick() {
+        this.props.history.push('/')
     }
 
     onClick() {
@@ -39,7 +44,7 @@ class Header extends Component {
             <div>
                 <div className="main-nav">
                     <div>
-                        <img src='/images/NextbookFav.png' className='header-img'/>
+                        <img src='/images/NextbookFav.png' className='header-img' onClick={this.homeClick}/>
                         <img src={'/images/logo_' + user.school + '.png'} className='header-img'/>
                     </div>
                     <h2 >Welcome to Nextbooks, {user.first_name}!</h2>
@@ -57,7 +62,7 @@ class Header extends Component {
             <div>
                 <div className="main-nav">
                     <div>
-                        <img src='/images/NextbookFav.png' className='header-img'/>
+                        <img src='/images/NextbookFav.png' className='header-img' onClick={this.homeClick}/>
                     </div>
                     <h2>Welcome to Nextbooks!</h2>
                     <div className="nav-container">

@@ -39,7 +39,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 let options = {
     useMongoClient: true
 };
-mongoose.connect('mongodb://localhost:27017/nextbooks', options)
+mongoose.connect('mongodb://192.168.99.100:32770/nextbooks', options)
     .then(() => {
         console.log('\t MongoDB connected');
 
