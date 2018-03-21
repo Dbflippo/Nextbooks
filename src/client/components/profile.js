@@ -3,8 +3,16 @@
 import React, { Component }             from 'react';
 import { Link, withRouter }             from 'react-router-dom';
 
-//Todo: split this into have/want books because the links when you click on them will lead different places
-const Book = ({book, index}) => {
+const HaveBook = ({book, index}) => {
+    return <tr key={index}>
+        <th>{book.ISBN}</th>
+        <th>{book.title}</th>
+        <th>{book.author}</th>
+        <th>${book.price}</th>
+    </tr>
+};
+
+const WantBook = ({book, index}) => {
     return <tr key={index}>
         <th>{book.ISBN}</th>
         <th>{book.title}</th>
@@ -20,7 +28,8 @@ class Profile extends Component {
                 wanted_books: [],
                 owned_books: [],
             }
-        }
+        };
+        this.sellBook = this.sellBook.bind(this);
     }
 
     fetchInfo(username) {
@@ -45,13 +54,17 @@ class Profile extends Component {
         this.fetchInfo(nextProps.match.params.username);
     }
 
+    sellBook() {
+        this.props.history.push('/checkbook')
+    }
+
     render() {
         const isUser = this.props.match.params.username === this.props.user.getUser().username;
         let wantList = this.state.user.wanted_books.map((book, index) => (
-            <Book key={index} book={book} index={index}/>
+            <WantBook key={index} book={book} index={index}/>
         ));
         let haveList = this.state.user.owned_books.map((book, index) => (
-            <Book key={index} book={book} index={index}/>
+            <HaveBook key={index} book={book} index={index}/>
         ));
         return<div>
             <div className="center-block">
@@ -83,7 +96,7 @@ class Profile extends Component {
             <div className='col-xs-12'>
                 <div className='col-xs-6'>
                     <h4 >Books For Sale</h4>
-                    { isUser ? <Link to={`/checkbook`}>Sell A Book</Link> : undefined }
+                    { isUser ? <button className='btn btn-default' onClick={this.sellBook}>Sell A Book</button> : undefined }
                 </div>
                 <h4 className='col-xs-6'>Books You Want</h4>
             </div>
@@ -95,6 +108,7 @@ class Profile extends Component {
                             <th>ISBN</th>
                             <th>Title</th>
                             <th>Author</th>
+                            <th>Price</th>
                         </tr>
                         </thead>
                         <tbody>{haveList}</tbody>

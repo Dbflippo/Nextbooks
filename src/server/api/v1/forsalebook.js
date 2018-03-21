@@ -7,8 +7,8 @@ module.exports = app => {
     app.post('/v1/forsalebook', (req, res) => {
         let schema = Joi.object().keys({
             ISBN:       Joi.string().alphanum().min(13).max(13).required(),
-            title:      Joi.string().lowercase().required(),
-            author:     Joi.string().lowercase().required(),
+            title:      Joi.string().required(),
+            author:     Joi.string().required(),
             edition:    Joi.string(),
             price:      Joi.number().required(),
             seller:     Joi.string().required(),
@@ -24,7 +24,6 @@ module.exports = app => {
                 forsalebook.save().then(
                     () => {
                         const query = { $push: { owned_books: forsalebook._id }};
-                        // Save game to user's document too
                         app.models.User.findOneAndUpdate({ _id: req.session.user._id }, query, () => {
                             const query2 = { $push: { for_sale: forsalebook._id }};
                             app.models.InfoBook.findOneAndUpdate({ ISBN: data.ISBN }, query2, () => {
@@ -41,4 +40,4 @@ module.exports = app => {
             }
         });
     })
-}
+};

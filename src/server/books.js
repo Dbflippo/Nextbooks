@@ -1,11 +1,19 @@
 'use strict';
 
-let filterBooksForProfile = book => ({
+let filterOwnedBooksForProfile = book => ({
+    ISBN: book.ISBN,
+    title: book.title,
+    author: book.author,
+    price: book.price,
+});
+
+let filterWantedBooksForProfile = book => ({
     ISBN: book.ISBN,
     title: book.title,
     author: book.author,
 });
 
 module.exports = {
-    filterBooksForProfile: filterBooksForProfile
-}
+    filterOwnedBooksForProfile: filterOwnedBooksForProfile,
+    filterWantedBooksForProfile: filterWantedBooksForProfile
+};

@@ -115,8 +115,8 @@ module.exports = (app) => {
                 user => {
                     if (!user) res.status(404).send({ error: `unknown user: ${req.params.username}` });
                     else {
-                        const filteredWantedBooks = user.wanted_books.map(book => Books.filterBooksForProfile(book));
-                        const filteredOwnedBooks = user.owned_books.map(book => Books.filterBooksForProfile(book));
+                        const filteredWantedBooks = user.wanted_books.map(book => Books.filterWantedBooksForProfile(book));
+                        const filteredOwnedBooks = user.owned_books.map(book => Books.filterOwnedBooksForProfile(book));
 
                         res.status(200).send({
                             username:       user.username,
