@@ -25,7 +25,7 @@ let User = new Schema({
     'hash':         { type: String, required: true },
     'salt':         { type: String, required: true },
     'owned_books':  [{type: Schema.Types.ObjectId, ref: 'ForSaleBook'}],
-    'wanted_books': [{type: String, ref: 'InfoBook'}]
+    'wanted_books': [{type: Schema.Types.ObjectId, ref: 'InfoBook'}]
 });
 
 User.path('username').validate(function(value) {

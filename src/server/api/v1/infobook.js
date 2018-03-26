@@ -45,8 +45,16 @@ module.exports = (app) => {
     });
 
     app.get('/v1/infobooks', (req, res) => {
-        let infobooks = app.models.InfoBook.map();
-        res.status(200).send(infobooks);
+        app.models.InfoBook.find()
+            .exec()
+            .then(
+                books => {
+                    res.status(200).send(books)
+                }, err => {
+                    console.log(err);
+                    res.status(500).send({ error: 'server error'});
+                }
+            )
     });
 
     app.post('/v1/infobook', (req, res) => {
