@@ -136,43 +136,33 @@ module.exports = (app) => {
     });
 
 
-
-    /*
-     * Update a user's profile information
-     *
-     * @param {req.body.first_name} First name of the user - optional
-     * @param {req.body.last_name} Last name of the user - optional
-     * @param {req.body.school} School user lives in - optional
-     * @return {204, no body content} Return status only
-     */
     app.put('/v1/user', (req, res) => {
         if (!req.session.user) {
             res.status(401).send({ error: 'unauthorized' });
         } else {
-            let schema = Joi.object().keys({
-                first_name: Joi.string().allow(''),
-                last_name: Joi.string().allow(''),
-                school: Joi.string().allow(''),
-            });
-            Joi.validate(req.body, schema, {stripUnknown: true}, (err, data) => {
-                if (err) {
-                    const message = err.details[0].message;
-                    console.log(`User.update validation failure: ${message}`);
-                    res.status(400).send({error: message});
-                } else {
-                    const query = { username: req.session.user.username };
-                    app.models.User.findOneAndUpdate(query, {$set: data}, {new: true})
-                        .then(
-                            user => {
-                                req.session.user = user;
-                                res.status(204).end();
-                            }, err => {
-                                console.log(`User.update logged-in user not found: ${req.session.user.id}`);
-                                res.status(500).end();
-                            }
-                        );
+            if(req.body.wanted_books === undefined) {
+                req.body.wanted_books = [];
+            }
+            let userAlreadyWants = false;
+            req.body.wanted_books.forEach((book) => {
+                if (book.ISBN === req.body.ISBN) {
+                    console.log("User already wants this book");
+                    userAlreadyWants = true;
+                    res.status(400).end();
                 }
             });
+            if(!userAlreadyWants) {
+                const query = {$push: {wanted_books: req.body.id}};
+                app.models.User.findOneAndUpdate({_id: req.session.user._id}, query)
+                    .then(
+                        user => {
+                            res.status(201).send(user.wanted_books);
+                        }, err => {
+                            console.log(err);
+                            res.status(501).end()
+                        }
+                    );
+            }
         }
     });
 

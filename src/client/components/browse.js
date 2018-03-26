@@ -3,8 +3,8 @@
 import React, { Component }             from 'react';
 import { Link, withRouter }             from 'react-router-dom';
 
-const Book = ({book, index}) => {
-    return <div className="book-tile">
+const AvailableBook = ({book, index, onClick}) => {
+    return <div key={index} className="book-tile">
         <img className='book-cover' src='/images/book_placeholder.png'></img>
         <div className="book-tile-text">
             <div className="book-tile-title">{book.title}</div>
@@ -14,7 +14,21 @@ const Book = ({book, index}) => {
         </div>
         <div>
             <button className="btn btn-default book-btn">See Buying Options</button>
-            <button className="btn btn-default book-btn">Add to Your List</button>
+            <button className="btn btn-default book-btn" onClick={onClick}>Add to Your List</button>
+        </div>
+    </div>
+};
+const WantedBook = ({book, index}) => {
+    return <div key={index} className="book-tile">
+        <img className='book-cover' src='/images/book_placeholder.png'></img>
+        <div className="book-tile-text">
+            <div className="book-tile-title">{book.title}</div>
+            <div>{book.author}</div>
+            <div>{book.edition}</div>
+            <div>ISBN: {book.ISBN}</div>
+        </div>
+        <div>
+            <button className="btn btn-default book-btn">See Buying Options</button>
         </div>
     </div>
 };
@@ -27,8 +41,10 @@ class Browse extends Component {
                 wanted_books: [],
                 owned_books: [],
             },
-        }
-        //this.all_books = [];
+            all_books: [],
+        };
+        this.fetchUserInfo = this.fetchUserInfo.bind(this);
+        this.fetchBookInfo = this.fetchBookInfo.bind(this);
     }
 
     fetchUserInfo(username) {
@@ -44,7 +60,7 @@ class Browse extends Component {
                 errorEl.innerHTML = `Error: ${err.responseJSON.error}`;
             });
     }
-/*
+
     fetchBookInfo() {
         $.ajax({
             url: '/v1/infobooks',
@@ -58,31 +74,41 @@ class Browse extends Component {
                 errorEl.innerHTML = `Error: ${err.responseJSON.error}`;
             });
     }
-*/
+
+    addToWishList(id, ISBN) {
+        $.ajax({
+            url: '/v1/user',
+            method: 'put',
+            data: {id: id, wanted_books: this.state.user.wanted_books, ISBN: ISBN}
+        })
+            .then(data => {
+                this.setState({ user: {wanted_books: data}})
+            })
+            .fail(err => {
+                console.log(err)
+            })
+    }
+
 
     componentDidMount() {
         this.fetchUserInfo(this.props.user.getUser().username);
-        //this.fetchBookInfo();
+        this.fetchBookInfo();
     }
 
     componentWillReceiveProps(nextProps) {
         this.fetchUserInfo(nextProps.user.getUser().username);
-        //this.fetchBookInfo();
+        this.fetchBookInfo();
     }
 
     render() {
-        const isEmptyWantList = this.state.user.wanted_books.length == 0;
+        const isEmptyWantList = this.state.user.wanted_books.length === 0;
         let wantList = this.state.user.wanted_books.map((book, index) => (
-            <Book key={index} book={book} index={index}/>
+            <WantedBook key={index} book={book} index={index}/>
         ));
-        let ownedList = this.state.user.owned_books.map((book, index) => (
-            <Book key={index} book={book} index={index}/>
-        ));
-        {/*
+
         let allBooksList = this.state.all_books.map((book, index) => (
-            <Book key={index} book={book} index={index}/>
+            <AvailableBook key={index} book={book} index={index} onClick={() => {this.addToWishList(book._id, book.ISBN)}}/>
         ));
-        */}
         return<div>
             <div className='browse'>
                 <h3>On Your List:</h3>
@@ -94,7 +120,7 @@ class Browse extends Component {
                     </div>
 
                 <h3>All Books:</h3>
-                <div className='browse-window'>{ownedList}</div>
+                <div className='browse-window'>{allBooksList}</div>
             </div>
         </div>
     }
