@@ -14,7 +14,7 @@ const Book = ({book, index}) => {
         </div>
         <div>
             <button className="btn btn-default book-btn">See Buying Options</button>
-            <button className="btn btn-default book-btn">Add to Your List</button>
+            <button className="btn btn-default book-btn" onClick={}>Add to Your List</button>
         </div>
     </div>
 };
@@ -28,7 +28,6 @@ class Browse extends Component {
                 owned_books: [],
             },
         }
-        //this.all_books = [];
     }
 
     fetchUserInfo(username) {
