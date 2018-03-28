@@ -82,7 +82,9 @@ class Browse extends Component {
             data: {id: id, wanted_books: this.state.user.wanted_books, ISBN: ISBN}
         })
             .then(data => {
-                this.setState({ user: {wanted_books: data}})
+                this.setState({ user: {wanted_books: data}}, () => {
+                    console.log(this.state);
+                })
             })
             .fail(err => {
                 console.log(err)
