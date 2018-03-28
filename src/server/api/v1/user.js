@@ -146,14 +146,19 @@ module.exports = (app) => {
             let userAlreadyWants = false;
             req.body.wanted_books.forEach((book) => {
                 if (book.ISBN === req.body.ISBN) {
-                    console.log("User already wants this book");
                     userAlreadyWants = true;
-                    res.status(400).end();
                 }
             });
-            if(!userAlreadyWants) {
+            if(userAlreadyWants) {
+                console.log("User already wants this book");
+                res.status(400).end();
+            }
+            else {
                 const query = {$push: {wanted_books: req.body.id}};
-                app.models.User.findOneAndUpdate({_id: req.session.user._id}, query)
+                app.models.User.findOneAndUpdate({_id: req.session.user._id}, query, {new: true})
+                    .populate('wanted_books')
+                    .populate('owned_books')
+                    .exec()
                     .then(
                         user => {
                             res.status(201).send(user.wanted_books);
