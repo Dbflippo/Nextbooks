@@ -115,17 +115,14 @@ module.exports = (app) => {
                 user => {
                     if (!user) res.status(404).send({ error: `unknown user: ${req.params.username}` });
                     else {
-                        const filteredWantedBooks = user.wanted_books.map(book => Books.filterWantedBooksForProfile(book));
-                        const filteredOwnedBooks = user.owned_books.map(book => Books.filterOwnedBooksForProfile(book));
-
                         res.status(200).send({
                             username:       user.username,
                             primary_email:  user.primary_email,
                             first_name:     user.first_name,
                             last_name:      user.last_name,
                             school:         user.school,
-                            wanted_books:   filteredWantedBooks,
-                            owned_books:    filteredOwnedBooks,
+                            wanted_books:   user.wanted_books,
+                            owned_books:    user.owned_books,
                         });
                     }
                 }, err => {
@@ -144,16 +141,37 @@ module.exports = (app) => {
                 req.body.wanted_books = [];
             }
             let userAlreadyWants = false;
+            let index = -1;
             req.body.wanted_books.forEach((book) => {
                 if (book.ISBN === req.body.ISBN) {
                     userAlreadyWants = true;
+                    if(!req.body.addbook) {
+                        index = req.body.wanted_books.indexOf(book);
+                    }
                 }
             });
-            if(userAlreadyWants) {
+            if(index > -1) {
+                req.body.wanted_books = req.body.wanted_books.splice(index, 1)
+            }
+            if(userAlreadyWants && req.body.addbook === 'false') {
+                const query = {$pull: {wanted_books: req.body.id}};
+                app.models.User.findOneAndUpdate({_id: req.session.user._id}, query, {new: true})
+                    .populate('wanted_books')
+                    .populate('owned_books')
+                    .exec()
+                    .then(
+                        user => {
+                            console.log(user.wanted_books);
+                            res.status(201).send(user.wanted_books);
+                        }, err => {
+                            console.log(err);
+                            res.status(501).end()
+                        }
+                    );
+            } else if(userAlreadyWants && req.body.addbook === 'true') {
                 console.log("User already wants this book");
                 res.status(400).end();
-            }
-            else {
+            } else {
                 const query = {$push: {wanted_books: req.body.id}};
                 app.models.User.findOneAndUpdate({_id: req.session.user._id}, query, {new: true})
                     .populate('wanted_books')
