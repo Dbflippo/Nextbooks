@@ -14,11 +14,12 @@ const AvailableBook = ({book, index, onClick}) => {
         </div>
         <div>
             <button className="btn btn-default book-btn">See Buying Options</button>
-            <button className="btn btn-default book-btn" onClick={onClick}>Add to Your List</button>
+            <button className="btn btn-default book-btn" onClick={onClick}>Add to Your Wish List</button>
         </div>
     </div>
 };
-const WantedBook = ({book, index}) => {
+
+const WantedBook = ({book, index, onClick}) => {
     return <div key={index} className="book-tile">
         <img className='book-cover' src='/images/book_placeholder.png'></img>
         <div className="book-tile-text">
@@ -29,6 +30,8 @@ const WantedBook = ({book, index}) => {
         </div>
         <div>
             <button className="btn btn-default book-btn">See Buying Options</button>
+            <button className="btn btn-default book-btn" onClick={onClick}>Remove From Wish List</button>
+
         </div>
     </div>
 };
@@ -79,12 +82,24 @@ class Browse extends Component {
         $.ajax({
             url: '/v1/user',
             method: 'put',
-            data: {id: id, wanted_books: this.state.user.wanted_books, ISBN: ISBN}
+            data: {id: id, wanted_books: this.state.user.wanted_books, ISBN: ISBN, addbook: true}
         })
             .then(data => {
-                this.setState({ user: {wanted_books: data}}, () => {
-                    console.log(this.state);
-                })
+                this.setState({ user: {wanted_books: data}})
+            })
+            .fail(err => {
+                console.log(err)
+            })
+    }
+
+    removeFromWishList(id, ISBN) {
+        $.ajax({
+            url: '/v1/user',
+            method: 'put',
+            data: {id: id, wanted_books: this.state.user.wanted_books, ISBN: ISBN, addbook: false}
+        })
+            .then(data => {
+                this.setState({ user: {wanted_books: data}})
             })
             .fail(err => {
                 console.log(err)
@@ -105,7 +120,7 @@ class Browse extends Component {
     render() {
         const isEmptyWantList = this.state.user.wanted_books.length === 0;
         let wantList = this.state.user.wanted_books.map((book, index) => (
-            <WantedBook key={index} book={book} index={index}/>
+            <WantedBook key={index} book={book} index={index} onClick={() => {this.removeFromWishList(book._id, book.ISBN)}}/>
         ));
 
         let allBooksList = this.state.all_books.map((book, index) => (
@@ -113,7 +128,7 @@ class Browse extends Component {
         ));
         return<div>
             <div className='browse'>
-                <h3>On Your List:</h3>
+                <h3>On Your Wish List:</h3>
                 <div className='browse-window'>
                     {!isEmptyWantList ?
                         wantList :

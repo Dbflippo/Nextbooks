@@ -28,13 +28,12 @@ module.exports = (app) => {
                book => {
                    if (!book) res.status(404).send({ error: `unknown book: ${req.params.ISBN}` });
                    else {
-                       const filteredForSale = book.for_sale.map(fsbook => Books.filterOwnedBooksForProfile(fsbook));
                        res.status(200).send({
                            ISBN:            book.ISBN,
                            title:           book.title,
                            author:          book.author,
                            edition:         book.edition,
-                           for_sale:        filteredForSale,
+                           for_sale:        book.for_sale,
                        });
                    }
                }, err => {
