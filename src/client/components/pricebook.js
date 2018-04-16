@@ -51,7 +51,8 @@ class PriceBook extends Component {
             edition: document.getElementById('edition').value,
             price: document.getElementById('price').value,
             seller: this.props.user.data.username,
-            school: this.props.user.data.primary_email,
+            school: this.props.user.data.school,
+            sellemail: this.props.user.data.primary_email,
         };
         let $error = $('#errorMsg');
 

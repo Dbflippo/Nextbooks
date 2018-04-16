@@ -9,7 +9,7 @@ const BookListing = ({book, index}) => {
     return <tr key={index}>
         <th>{book.seller}</th>
         <th>{book.price}</th>
-        <td><button className='btn btn-default'>Contact Seller</button></td>
+        <td><a href={`mailto:${book.sellemail}?subject=I'm%20interested%20in%20your%20book`}>Contact Seller</a></td>
     </tr>
 };
 
@@ -40,7 +40,7 @@ class BuyingOptions extends Component {
     }
 
     backButton() {
-        this.props.history.push('/browse/')
+        this.props.history.push('/browse/');
     }
 
     render() {

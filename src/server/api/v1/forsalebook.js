@@ -13,6 +13,7 @@ module.exports = app => {
             price:      Joi.number().required(),
             seller:     Joi.string().required(),
             school:     Joi.string().required(),
+            sellemail:  Joi.string().required(),
         });
         Joi.validate(req.body, schema, {stripUnknown: true}, (err, data) => {
             if(err) {
