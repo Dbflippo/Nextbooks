@@ -17,6 +17,8 @@ import RegisterBook             from './components/registerbook';
 import CheckBook                from './components/checkbook';
 import PriceBook                from './components/pricebook';
 import CheckCourse              from './components/checkcourse';
+import AddCourse                from './components/addcourse';
+//import UpdateCourse             from './components/updatecourse';
 
 // Bring app CSS into the picture
 require('./app.css');
@@ -34,7 +36,7 @@ class MyApp extends Component {
         );
         this.book = new Book("0000000000000");
         this.course = new Course(
-            window.__PRELOADED_STATE__.school,
+            this.user.school,
             "General",
             "1101",
         );
@@ -63,6 +65,8 @@ class MyApp extends Component {
                 <Route path="/registerbook/:ISBN" render={()=> <RegisterBook user={this.user}/>}/>
                 <Route path="/pricebook/:ISBN" render={() => <PriceBook user={this.user}/>}/>
                 <Route path="/checkcourse" render={() => <CheckCourse course={this.course} user={this.user}/>}/>
+                <Route path="/addcourse/:school/:department/:number" render={() => <AddCourse user={this.user}/>}/>
+                /*<Route path="/updatecourse/:school/:department/:number" render={() => <UpdateCourse user={this.user}/>}/>*/
             </div>
         </BrowserRouter>;
     }

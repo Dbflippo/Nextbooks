@@ -48,14 +48,16 @@ class CheckCourse extends Component {
                         <div className='form-group'>
                             <label className='col-xs-2 control-label'>School</label>
                             <div className='col-xs-10'>
-                                <input className='form-control' id='school' type='text' placeholder='School' value={this.props.user.school} readOnly="readOnly"/>
+                                <input className='form-control' id='school' type='text' placeholder='School' value={this.props.user.data.school} readOnly="readOnly"/>
                             </div>
                             <label className='col-xs-2 control-label'>Department</label>
                             <div className='col-xs-10'>
                                 <select className="form-control" id="department">
                                     <option value="" disabled selected>Department</option>
                                     <option value="computer-science">Computer Science</option>
+                                    <option value="engineering-management">Engineering Management</option>
                                     <option value="mathematics">Mathematics</option>
+                                    <option value="philosophy">Philosophy</option>
                                 </select>
                             </div>
                             <label className='col-xs-2 control-label'>Course Number</label>
