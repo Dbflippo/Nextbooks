@@ -3,7 +3,7 @@
 import React, { Component }             from 'react';
 import { Link, withRouter }             from 'react-router-dom';
 
-const AvailableBook = ({book, index, onClick}) => {
+const AvailableBook = ({book, index, addWish, buyOptions}) => {
     return <div key={index} className="book-tile">
         <img className='book-cover' src='/images/book_placeholder.png'></img>
         <div className="book-tile-text">
@@ -13,13 +13,13 @@ const AvailableBook = ({book, index, onClick}) => {
             <div>ISBN: {book.ISBN}</div>
         </div>
         <div>
-            <button className="btn btn-default book-btn">See Buying Options</button>
-            <button className="btn btn-default book-btn" onClick={onClick}>Add to Your Wish List</button>
+            <button className="btn btn-default book-btn" onClick={buyOptions}>See Buying Options</button>
+            <button className="btn btn-default book-btn" onClick={addWish}>Add to Your Wish List</button>
         </div>
     </div>
 };
 
-const WantedBook = ({book, index, onClick}) => {
+const WantedBook = ({book, index, removeWish, buyOptions}) => {
     return <div key={index} className="book-tile">
         <img className='book-cover' src='/images/book_placeholder.png'></img>
         <div className="book-tile-text">
@@ -29,8 +29,8 @@ const WantedBook = ({book, index, onClick}) => {
             <div>ISBN: {book.ISBN}</div>
         </div>
         <div>
-            <button className="btn btn-default book-btn">See Buying Options</button>
-            <button className="btn btn-default book-btn" onClick={onClick}>Remove From Wish List</button>
+            <button className="btn btn-default book-btn" onClick={buyOptions}>See Buying Options</button>
+            <button className="btn btn-default book-btn" onClick={removeWish}>Remove From Wish List</button>
 
         </div>
     </div>
@@ -106,6 +106,10 @@ class Browse extends Component {
             })
     }
 
+    viewBuyingOptions(ISBN) {
+        this.props.history.push(`/BuyingOptions/${ISBN}`)
+    }
+
 
     componentDidMount() {
         this.fetchUserInfo(this.props.user.getUser().username);
@@ -120,11 +124,11 @@ class Browse extends Component {
     render() {
         const isEmptyWantList = this.state.user.wanted_books.length === 0;
         let wantList = this.state.user.wanted_books.map((book, index) => (
-            <WantedBook key={index} book={book} index={index} onClick={() => {this.removeFromWishList(book._id, book.ISBN)}}/>
+            <WantedBook key={index} book={book} index={index} removeWish={() => {this.removeFromWishList(book._id, book.ISBN)}} buyOptions={() => {this.viewBuyingOptions(book.ISBN)}}/>
         ));
 
         let allBooksList = this.state.all_books.map((book, index) => (
-            <AvailableBook key={index} book={book} index={index} onClick={() => {this.addToWishList(book._id, book.ISBN)}}/>
+            <AvailableBook key={index} book={book} index={index} addWish={() => {this.addToWishList(book._id, book.ISBN)}} buyOptions={() => {this.viewBuyingOptions(book.ISBN)}}/>
         ));
         return<div>
             <div className='browse'>

@@ -8,7 +8,7 @@ const HaveBook = ({book, index}) => {
         <th>{book.ISBN}</th>
         <th>{book.title}</th>
         <th>{book.author}</th>
-        <th>${book.price}</th>
+        <th>{book.price}</th>
     </tr>
 };
 
