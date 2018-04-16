@@ -18,7 +18,7 @@ class AddCourse extends Component {
             number: document.getElementById('number').value,
             name: document.getElementById('name').value,
             professor: document.getElementById('professor').value,
-            //books: [document.getElementById('book').value],
+            book: document.getElementById('book').value,
         };
         let $error = document.getElementById('errorMsg');
         if(!coursedata.name) {

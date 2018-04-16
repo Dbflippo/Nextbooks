@@ -9,7 +9,7 @@ let Course = new Schema({
     'number': {type: String, required: true},
     'name': {type: String, required: true},
     'professor': {type: String},
-    //'books': [{type: Schema.Types.ObjectId, ref: 'InfoBook'}]
+    'book': {type: String},
 });
 
 
