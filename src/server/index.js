@@ -48,6 +48,7 @@ mongoose.connect('mongodb://192.168.99.100:32773/nextbooks', options)
             User: require('./models/user'),
             InfoBook: require('./models/infobook'),
             ForSaleBook: require('./models/forsalebook'),
+            Course: require('./models/course'),
         };
 
         // Import our API Routes
@@ -55,6 +56,7 @@ mongoose.connect('mongodb://192.168.99.100:32773/nextbooks', options)
         require('./api/v1/session')(app);
         require('./api/v1/forsalebook')(app);
         require('./api/v1/infobook')(app);
+        require('./api/v1/course')(app);
 
         // Give them the SPA base page
         app.get('*', (req, res) => {

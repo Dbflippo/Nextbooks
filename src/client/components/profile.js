@@ -21,6 +21,15 @@ const WantBook = ({book, index}) => {
     </tr>
 };
 
+const Course = ({course, index}) => {
+    return <tr key={index}>
+        <th>{course.department}</th>
+        <th>{course.number}</th>
+        <th>{course.name}</th>
+        <th>{course.professor}</th>
+    </tr>
+};
+
 class Profile extends Component {
     constructor(props) {
         super(props);
@@ -28,9 +37,12 @@ class Profile extends Component {
             user: {
                 wanted_books: [],
                 owned_books: [],
+                //courses: [],
             }
         };
         this.sellBook = this.sellBook.bind(this);
+        this.addClass = this.addClass.bind(this);
+        this.findClasses = this.findClasses.bind(this);
     }
 
     fetchInfo(username) {
@@ -67,6 +79,14 @@ class Profile extends Component {
         }).then(data => {
             this.setState({user: data})
         })
+
+    addClass() {
+        this.props.history.push('/checkcourse')
+    }
+
+    findClasses() {
+        this.props.history.push('/findcourse')
+
     }
 
     render() {
@@ -77,6 +97,12 @@ class Profile extends Component {
         let haveList = this.state.user.owned_books.map((book, index) => (
             <HaveBook key={index} book={book} index={index} onClick={() => {this.removeListing(book.ISBN, book._id)}}/>
         ));
+        /*
+        let courseList = this.state.user.courses.map((course, index) => (
+            <Course key={index} course={course} index={index}/>
+        ));
+        */
+        let courseList = [];
         return<div>
             <div className="center-block">
                 <p id="errorMsg" className="bg-danger"/>
@@ -137,6 +163,29 @@ class Profile extends Component {
                         <tbody>{wantList}</tbody>
                     </table>
                 </div>
+            </div>
+            <div className='row col-xs-12'>
+                <hr className='profile-hr'/>
+            </div>
+            <div className='col-xs-12'>
+                <div className='col-xs-6'>
+                    <h4 >Courses</h4>
+                    { isUser ? <button className='btn btn-default' onClick={this.addClass}>Add A New Class</button> : undefined }
+                    { isUser ? <button className='btn btn-default' onClick={this.findClasses}>Find Your Classes</button> : undefined }
+                </div>
+            </div>
+            <div className='col-xs-12'>
+                    <table id='course-list' className='table'>
+                        <thead>
+                        <tr>
+                            <th>Department</th>
+                            <th>Number</th>
+                            <th>Name</th>
+                            <th>Professor</th>
+                        </tr>
+                        </thead>
+                        <tbody>{courseList}</tbody>
+                    </table>
             </div>
         </div>;
     }
