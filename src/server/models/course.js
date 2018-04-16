@@ -9,8 +9,8 @@ let Course = new Schema({
     'number': {type: String, required: true},
     'name': {type: String, required: true},
     'professor': {type: String},
-    'books': [{type: Schema.Types.ObjectId, ref: 'InfoBook'}]
+    //'books': [{type: Schema.Types.ObjectId, ref: 'InfoBook'}]
 });
 
 
-module.export= mongoose.model('Course', Course);
+module.exports = mongoose.model('Course', Course);

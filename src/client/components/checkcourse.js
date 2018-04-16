@@ -17,22 +17,8 @@ class CheckCourse extends Component {
             department: document.getElementById('department').value,
             number: document.getElementById('number').value
         };
-        $.ajax({
-            url: `/v1/course/${data.school}/${data.department}/${data.number}`,
-            method: 'head',
-            data: data,
-        })
-            .then(() => {
-                this.props.book.UpdateCourse(this.props.history, data)
-            })
-            .fail(err => {
-                if(err.status === 404) {
-                    this.props.book.AddCourse(this.props.history, data)
-                } else {
-                    let errorEl = document.getElementById('errorMsg');
-                    errorEl.innerHTML = `Error: ${err.responseJSON.error}`;
-                }
-            })
+        // Must fix so you can't add same course twice
+        this.props.course.AddCourse(this.props.history, data);
 
     }
 
@@ -60,7 +46,7 @@ class CheckCourse extends Component {
                                     <option value="philosophy">Philosophy</option>
                                 </select>
                             </div>
-                            <label className='col-xs-2 control-label'>Course Number</label>
+                            <label className='col-xs-2 control-label'>Course #</label>
                             <div className='col-xs-10'>
                                 <input className='form-control' id='number' type='text' placeholder='i.e. 1101'/>
                             </div>

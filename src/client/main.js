@@ -19,6 +19,7 @@ import PriceBook                from './components/pricebook';
 import CheckCourse              from './components/checkcourse';
 import AddCourse                from './components/addcourse';
 //import UpdateCourse             from './components/updatecourse';
+import CourseDisplay            from './components/coursedisplay';
 
 // Bring app CSS into the picture
 require('./app.css');
@@ -66,7 +67,8 @@ class MyApp extends Component {
                 <Route path="/pricebook/:ISBN" render={() => <PriceBook user={this.user}/>}/>
                 <Route path="/checkcourse" render={() => <CheckCourse course={this.course} user={this.user}/>}/>
                 <Route path="/addcourse/:school/:department/:number" render={() => <AddCourse user={this.user}/>}/>
-                /*<Route path="/updatecourse/:school/:department/:number" render={() => <UpdateCourse user={this.user}/>}/>*/
+                <Route path="/updatecourse/:school/:department/:number" render={() => <UpdateCourse user={this.user}/>}/>
+                <Route path="/course/:school/:department/:number" render={() => <CourseDisplay user={this.user}/>}/>
             </div>
         </BrowserRouter>;
     }

@@ -19,7 +19,7 @@ module.exports = (app) => {
 
     app.get('/v1/course/:school/:department/:number', (req, res) => {
         app.models.Course.findOne({school: req.params.school, department: req.params.department, number: req.params.number})
-            .populate('books')
+            //.populate('books')
             .exec()
             .then(
                 course => {
@@ -31,7 +31,7 @@ module.exports = (app) => {
                             number:             course.number,
                             name:               course.name,
                             professor:          course.professor,
-                            books:              course.books,
+                            //books:              course.books,
                         });
                     }
                 }, err => {
@@ -60,7 +60,8 @@ module.exports = (app) => {
             department:     Joi.string().required(),
             number:         Joi.string().required(),
             name:           Joi.string().required(),
-            professor:      Joi.string(),
+            professor:      Joi.string()
+            //books:          Joi.array(),
         });
         Joi.validate(req.body, schema, {stripUnknown: true}, (err, data) => {
             if(err) {
