@@ -16,6 +16,7 @@ import Browse                   from './components/browse';
 import RegisterBook             from './components/registerbook';
 import CheckBook                from './components/checkbook';
 import PriceBook                from './components/pricebook';
+import CheckCourse              from './components/checkcourse';
 
 // Bring app CSS into the picture
 require('./app.css');
@@ -32,6 +33,11 @@ class MyApp extends Component {
             window.__PRELOADED_STATE__.school,
         );
         this.book = new Book("0000000000000");
+        this.course = new Course(
+            window.__PRELOADED_STATE__.school,
+            "General",
+            "1101",
+        );
     }
 
     render() {
@@ -56,6 +62,7 @@ class MyApp extends Component {
                 <Route path="/checkbook" render={() => <CheckBook book={this.book}/>}/>
                 <Route path="/registerbook/:ISBN" render={()=> <RegisterBook user={this.user}/>}/>
                 <Route path="/pricebook/:ISBN" render={() => <PriceBook user={this.user}/>}/>
+                <Route path="/checkcourse" render={() => <CheckCourse course={this.course} user={this.user}/>}/>
             </div>
         </BrowserRouter>;
     }
@@ -133,6 +140,34 @@ class User {
 
     getUser() {
         return this.data;
+    }
+}
+
+class Course {
+    constructor(school, department, number) {
+        if(school && department && number) {
+            this.data = {
+                school: school,
+                department: department,
+                number: number,
+            };
+        } else {
+            this.data = {
+                school: "",
+                department: "",
+                number: "",
+            };
+        }
+    }
+
+    UpdateCourse(router, data) {
+        this.data = data;
+        router.push(`/updatecourse/${data.school}/${data.department}/${data.number}`)
+    }
+
+    AddCourse(router, data) {
+        this.data = data;
+        router.push(`/addcourse/${data.school}/${data.department}/${data.number}`)
     }
 }
 
