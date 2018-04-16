@@ -3,12 +3,13 @@
 import React, { Component }             from 'react';
 import { Link, withRouter }             from 'react-router-dom';
 
-const HaveBook = ({book, index}) => {
+const HaveBook = ({book, index, onClick}) => {
     return <tr key={index}>
         <th>{book.ISBN}</th>
         <th>{book.title}</th>
         <th>{book.author}</th>
         <th>{book.price}</th>
+        <td><button className='btn btn-default' onClick={onClick}>Remove</button></td>
     </tr>
 };
 
@@ -58,13 +59,23 @@ class Profile extends Component {
         this.props.history.push('/checkbook')
     }
 
+    removeListing(ISBN, id) {
+        $.ajax({
+            url: `/v1/forsalebook/${ISBN}`,
+            type: 'delete',
+            data: {id: id}
+        }).then(data => {
+            this.setState({user: data})
+        })
+    }
+
     render() {
         const isUser = this.props.match.params.username === this.props.user.getUser().username;
         let wantList = this.state.user.wanted_books.map((book, index) => (
             <WantBook key={index} book={book} index={index}/>
         ));
         let haveList = this.state.user.owned_books.map((book, index) => (
-            <HaveBook key={index} book={book} index={index}/>
+            <HaveBook key={index} book={book} index={index} onClick={() => {this.removeListing(book.ISBN, book._id)}}/>
         ));
         return<div>
             <div className="center-block">

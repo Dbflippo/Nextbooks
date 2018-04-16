@@ -8,8 +8,8 @@ import { withRouter }           from 'react-router-dom';
 const BookListing = ({book, index}) => {
     return <tr key={index}>
         <th>{book.seller}</th>
-        <th>{book.price}</th>
-        <td><a href={`mailto:${book.sellemail}?subject=I'm%20interested%20in%20your%20book`}>Contact Seller</a></td>
+        <th>{'$' + book.price}</th>
+        <td><a href={`mailto:${book.sellemail}?subject=Regarding your copy of ${book.title}&body=Hello,\n I'm interested in buying your copy of ${book.title} listed on Nextbooks`}>Contact Seller</a></td>
     </tr>
 };
 
