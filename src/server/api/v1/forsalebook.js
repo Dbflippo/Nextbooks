@@ -13,6 +13,7 @@ module.exports = app => {
             price:      Joi.number().required(),
             seller:     Joi.string().required(),
             school:     Joi.string().required(),
+            sellemail:  Joi.string().required(),
         });
         Joi.validate(req.body, schema, {stripUnknown: true}, (err, data) => {
             if(err) {
@@ -39,5 +40,25 @@ module.exports = app => {
                 )
             }
         });
+    });
+
+    app.delete('/v1/forsalebook/:ISBN', (req, res) => {
+        app.models.ForSaleBook.findOneAndRemove({ISBN: req.params.ISBN})
+            .exec()
+            .then(
+                () => {
+                    const query = {$pull: {owned_books: req.body.id}};
+                    app.models.User.findOneAndUpdate({_id: req.session.user._id}, query, {new: true})
+                        .populate('wanted_books')
+                        .populate('owned_books')
+                        .exec()
+                        .then(
+                            user => {
+                                res.status(201).send(user);
+                            }, err => {
+                                console.log(err);
+                                res.status(501).end()
+                            });
+                })
     })
 };

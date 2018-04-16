@@ -161,7 +161,6 @@ module.exports = (app) => {
                     .exec()
                     .then(
                         user => {
-                            console.log(user.wanted_books);
                             res.status(201).send(user.wanted_books);
                         }, err => {
                             console.log(err);

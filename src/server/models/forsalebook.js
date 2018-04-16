@@ -11,6 +11,7 @@ let ForSaleBook = new Schema({
     'price': {type: Number, required: true},
     'seller': {type: String, required: true, ref: 'User'},
     'school': {type: String, required: true},
+    'sellemail': {type: String, required: true},
 });
 
 
