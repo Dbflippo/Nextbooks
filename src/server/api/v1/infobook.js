@@ -44,16 +44,34 @@ module.exports = (app) => {
     });
 
     app.get('/v1/infobooks', (req, res) => {
-        app.models.InfoBook.find()
-            .exec()
-            .then(
-                books => {
-                    res.status(200).send(books)
-                }, err => {
-                    console.log(err);
-                    res.status(500).send({ error: 'server error'});
-                }
-            )
+        if(req.query.filtered === 'false' || req.query.search === '') {
+            app.models.InfoBook.find()
+                .exec()
+                .then(
+                    books => {
+                        res.status(200).send({all_books: books, wanted_books: req.query.wanted_books})
+                    }, err => {
+                        console.log(err);
+                        res.status(500).send({error: 'server error'});
+                    }
+                )
+        } else {
+            let lookup = {};
+            lookup[req.query.category] = req.query.search;
+            app.models.InfoBook.find(lookup)
+                .exec()
+                .then(
+                    books => {
+                        let filteredWanted = req.query.wanted_books.filter((n) => {
+                            return books.indexOf(n) !== -1;
+                        });
+                        res.status(200).send({all_books: books, wanted_books: filteredWanted})
+                    }, err => {
+                        console.log(err);
+                        res.status(500).send({error: 'server error'});
+                    }
+                )
+        }
     });
 
     app.post('/v1/infobook', (req, res) => {

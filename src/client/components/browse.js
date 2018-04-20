@@ -45,9 +45,11 @@ class Browse extends Component {
                 owned_books: [],
             },
             all_books: [],
+            filtered_wanted: [],
         };
         this.fetchUserInfo = this.fetchUserInfo.bind(this);
         this.fetchBookInfo = this.fetchBookInfo.bind(this);
+        this.onSearch = this.onSearch.bind(this);
     }
 
     fetchUserInfo(username) {
@@ -56,7 +58,7 @@ class Browse extends Component {
             method: "get"
         })
             .then(data => {
-                this.setState({ user: data });
+                this.setState({ user: data, filtered_wanted: data.wanted_books});
             })
             .fail(err => {
                 let errorEl = document.getElementById('errorMsg');
@@ -67,10 +69,11 @@ class Browse extends Component {
     fetchBookInfo() {
         $.ajax({
             url: '/v1/infobooks',
-            method: 'get'
+            method: 'get',
+            data: {filtered: false}
         })
             .then(data => {
-                this.setState({ all_books: data });
+                this.setState({ all_books: data.all_books });
             })
             .fail(err => {
                 let errorEl = document.getElementById('errorMsg');
@@ -82,10 +85,10 @@ class Browse extends Component {
         $.ajax({
             url: '/v1/user',
             method: 'put',
-            data: {id: id, wanted_books: this.state.user.wanted_books, ISBN: ISBN, addbook: true}
+            data: {id: id, wanted_books: this.state.filtered_wanted, ISBN: ISBN, addbook: true}
         })
             .then(data => {
-                this.setState({ user: {wanted_books: data}})
+                this.setState({ filtered_wanted: data})
             })
             .fail(err => {
                 console.log(err)
@@ -96,10 +99,10 @@ class Browse extends Component {
         $.ajax({
             url: '/v1/user',
             method: 'put',
-            data: {id: id, wanted_books: this.state.user.wanted_books, ISBN: ISBN, addbook: false}
+            data: {id: id, wanted_books: this.state.filtered_wanted, ISBN: ISBN, addbook: false}
         })
             .then(data => {
-                this.setState({ user: {wanted_books: data}})
+                this.setState({ filtered_wanted: data})
             })
             .fail(err => {
                 console.log(err)
@@ -108,6 +111,27 @@ class Browse extends Component {
 
     viewBuyingOptions(ISBN) {
         this.props.history.push(`/BuyingOptions/${ISBN}`)
+    }
+
+    onSearch(ev) {
+        ev.preventDefault();
+        const data = {
+            search: document.getElementById('search').value,
+            category: document.getElementById('category').value,
+            filtered: true,
+            wanted_books: this.state.user.wanted_books,
+        };
+        $.ajax({
+            url: '/v1/infobooks',
+            method: 'get',
+            data: data,
+        }).then(data => {
+            console.log(data);
+            if(data.wanted_books === undefined) {
+                data.wanted_books = [];
+            }
+            this.setState({ all_books: data.all_books, filtered_wanted: data.wanted_books})
+        })
     }
 
 
@@ -122,8 +146,9 @@ class Browse extends Component {
     }
 
     render() {
-        const isEmptyWantList = this.state.user.wanted_books.length === 0;
-        let wantList = this.state.user.wanted_books.map((book, index) => (
+        console.log(this.state);
+        const isEmptyWantList = this.state.filtered_wanted.length === 0;
+        let wantList = this.state.filtered_wanted.map((book, index) => (
             <WantedBook key={index} book={book} index={index} removeWish={() => {this.removeFromWishList(book._id, book.ISBN)}} buyOptions={() => {this.viewBuyingOptions(book.ISBN)}}/>
         ));
 
@@ -132,6 +157,23 @@ class Browse extends Component {
         ));
         return<div>
             <div className='browse'>
+                <div className="col-xs-12">
+                    <form>
+                        <div className='form-group col-xs-6'>
+                            <input className='form-control' id='search' type='text' placeholder='Enter exact ISBN, Title, or Author...'/>
+                        </div>
+                        <div className='form-group col-xs-3'>
+                            <select className='form-control' id='category' name='category'>
+                                <option value='ISBN'>ISBN</option>
+                                <option value='title'>Title</option>
+                                <option value='author'>Author</option>
+                            </select>
+                        </div>
+                        <div className='form-group col-xs-3'>
+                            <button className='btn btn-default' onClick={this.onSearch}>Search</button>
+                        </div>
+                    </form>
+                </div>
                 <h3>On Your Wish List:</h3>
                 <div className='browse-window'>
                     {!isEmptyWantList ?

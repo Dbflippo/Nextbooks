@@ -79,6 +79,7 @@ class Profile extends Component {
         }).then(data => {
             this.setState({user: data})
         })
+    }
 
     addClass() {
         this.props.history.push('/checkcourse')
